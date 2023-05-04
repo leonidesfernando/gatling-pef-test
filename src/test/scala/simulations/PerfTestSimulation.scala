@@ -4,7 +4,8 @@ import config.BaseHelper._
 import io.gatling.core.Predef._
 import scenarios.ShopizerScenario.scnShopizer
 
-import scala.concurrent.duration.{FiniteDuration, SECONDS}
+import java.util.concurrent.TimeUnit
+import scala.concurrent.duration.{FiniteDuration, HOURS, MINUTES, SECONDS}
 
 class PerfTestSimulation extends Simulation{
 
@@ -12,7 +13,7 @@ class PerfTestSimulation extends Simulation{
 
   def init() ={
     println("Initializing ... ")
-    users = Integer.getInteger("users", 100)
+    users = Integer.getInteger("users", 500)
 
     println("Running perf test with these configurations:")
     println("Total users: " + users)
@@ -24,9 +25,12 @@ class PerfTestSimulation extends Simulation{
 * To run:/> mvn gatling:test
 */
 
+  def unitTime = TimeUnit.valueOf("SECONDS")
+
   setUp(
     scnShopizer.inject(
-      rampUsers(users).during(new FiniteDuration(users, SECONDS))
+      rampUsers(users).during(new FiniteDuration(200, unitTime)),
+      //rampConcurrentUsers(200).to(300).during(new FiniteDuration(40, SECONDS)),
     )
   ).protocols(httpProtocol)
 }
