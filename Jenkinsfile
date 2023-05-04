@@ -5,7 +5,7 @@ pipeline {
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')
     }
     parameters {
-        choice(name: "N_USERS", choices: ["100", "200", "400", "500"], description: "Number of users for back-end jobs")
+        choice(name: "N_USERS", choices: ["100", "200", "400", "500"], description: "Number of users for back-end jobs"),
         string(name: "TIME_DURATION", defaultValue: "200", trim: true, description: "Time duration"),
         choice(name: "TIME_UNIT", choices: ["SECONDS", "MINUTES", "HOURS"], description: "Time unit for time duration")
     }
