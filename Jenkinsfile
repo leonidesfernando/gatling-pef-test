@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    triggers { cron("H/5 * * * *") }
+    //triggers { cron("H/5 * * * *") }
     options {
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')
     }
     parameters {
-        choice(name: "N_USERS", choices: ["3", "4", "5"], description: "Number of users for back-end jobs")
+        choice(name: "N_USERS", choices: ["5", "100", "200", "400", "500"], description: "Number of users for back-end jobs")
     }
     stages {
         stage('Configuring') {
@@ -23,7 +23,7 @@ pipeline {
         stage('Running Gatling') {
             steps {
                 dir("${env.WORKSPACE}/${BUILD_NUMBER}/"){
-                    sh 'mvn clean gatling:test -D$params.N_USERS'
+                    sh 'mvn clean gatling:test -Dusers=$params.N_USERS'
                 }
             }
             post {
