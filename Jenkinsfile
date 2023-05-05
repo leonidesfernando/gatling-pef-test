@@ -25,8 +25,6 @@ pipeline {
         stage('Running Gatling') {
             steps {
                 dir("${env.WORKSPACE}/${BUILD_NUMBER}/"){
-                    echo "$params.N_USERS"
-
                     sh "mvn clean gatling:test -Dusers=${params.N_USERS} -DTIME_DURATION=${params.TIME_DURATION} -DTIME_UNIT=${params.TIME_UNIT}"
                 }
             }
