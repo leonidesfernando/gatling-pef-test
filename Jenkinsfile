@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Running Gatling') {
             steps {
-                def nUsers = "$params.N_USERS"
+                var nUsers = "$params.N_USERS"
                 dir("${env.WORKSPACE}/${BUILD_NUMBER}/"){
                     echo "$params.N_USERS"
 
