@@ -5,8 +5,8 @@ pipeline {
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')
     }
     parameters {
-        choice(name: "N_USERS", choices: ["100", "200", "400", "500"], description: "Number of users for back-end jobs")
-        string(name: "TIME_DURATION", defaultValue: "200", trim: true, description: "Time duration")
+        choice(name: "N_USERS", choices: ["50", "100", "200", "400", "500"], description: "Number of users for back-end jobs")
+        string(name: "TIME_DURATION", defaultValue: "20", trim: true, description: "Time duration")
         choice(name: "TIME_UNIT", choices: ["SECONDS", "MINUTES", "HOURS"], description: "Time unit for time duration")
     }
     stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('Running Gatling') {
             steps {
                 dir("${env.WORKSPACE}/${BUILD_NUMBER}/"){
-                    sh 'mvn clean gatling:test -Dusers=$params.N_USERS -DTIME_DURATION=$params.TIME_DURATION -DTIME_UNIT=$params.TIME_UNIT'
+                    sh 'mvn clean gatling:test -Dusers = $params.N_USERS -DTIME_DURATION = $params.TIME_DURATION -DTIME_UNIT = $params.TIME_UNIT'
                 }
             }
             post {
